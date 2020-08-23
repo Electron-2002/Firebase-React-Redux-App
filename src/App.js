@@ -6,6 +6,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import ProjectDetails from './components/projects/ProjectDetails';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
+import CreateProject from './components/projects/CreateProject';
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="/project/:id" exact component={ProjectDetails} />
                 <Route path="/signin" exact component={SignIn} />
                 <Route path="/signup" exact component={SignUp} />
+                <Route path="/create" exact component={CreateProject} />
             </Switch>
         </>
     );
