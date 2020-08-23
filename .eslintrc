@@ -12,6 +12,14 @@
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "no-unused-vars": "warn",
         "no-console": "off",
-        "react/require-default-props": "off"
+        "react/require-default-props": "off",
+        "jsx-a11y/label-has-associated-control": [
+            "error",
+            {
+                "required": {
+                    "some": ["nesting", "id"]
+                }
+            }
+        ]
     }
 }
