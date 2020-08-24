@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createProject } from '../../store/actions/projectActions';
 
 const CreateProject = () => {
     const [formFields, setFormFields] = useState({
         title: '',
         content: '',
     });
+
+    const dispatch = useDispatch();
 
     const changeHandler = (e) => {
         setFormFields({
@@ -15,7 +19,9 @@ const CreateProject = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(formFields);
+        // console.log(formFields);
+
+        dispatch(createProject(formFields));
     };
 
     return (
