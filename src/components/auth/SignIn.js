@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import signIn from '../../store/actions/authActions';
 
 const SignIn = () => {
     const [formFields, setFormFields] = useState({
         email: '',
         password: '',
     });
+
+    const authError = useSelector((state) => state.auth.authError);
+    const dispatch = useDispatch();
 
     const changeHandler = (e) => {
         setFormFields({
@@ -15,7 +20,8 @@ const SignIn = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(formFields);
+
+        dispatch(signIn(formFields));
     };
 
     return (
@@ -51,6 +57,9 @@ const SignIn = () => {
                     >
                         Login
                     </button>
+                    <div className="red-text center">
+                        {authError ? <p>{authError}</p> : null}
+                    </div>
                 </div>
             </form>
         </div>
