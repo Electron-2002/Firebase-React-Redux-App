@@ -1,29 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { getFirebase, reactReduxFirebase } from 'react-redux-firebase';
-import { getFirestore, reduxFirestore } from 'redux-firestore';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
+import { createFirestoreInstance } from 'redux-firestore';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import firebaseConfig from './config/firebaseConfig';
 import rootReducer from './store/reducers/rootReducer';
 import App from './App';
 
+const rrfConfig = {
+    userProfile: 'users',
+    useFirestoreForProfile: true,
+};
+
 const store = createStore(
     rootReducer,
-    compose(
-        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
-        reduxFirestore(firebaseConfig),
-        reactReduxFirebase(firebaseConfig)
-    )
+    applyMiddleware(thunk.withExtraArgument(getFirebase))
 );
+
+const rrfProps = {
+    firebase: firebaseConfig,
+    config: rrfConfig,
+    dispatch: store.dispatch,
+    createFirestoreInstance,
+};
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
-            <App />
-        </Router>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+            <Router>
+                <App />
+            </Router>
+        </ReactReduxFirebaseProvider>
     </Provider>,
     document.getElementById('root')
 );

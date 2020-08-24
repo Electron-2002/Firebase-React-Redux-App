@@ -19,7 +19,6 @@ const CreateProject = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        // console.log(formFields);
 
         dispatch(createProject(formFields));
     };
