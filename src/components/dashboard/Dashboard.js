@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
 import Notifications from './Notifications';
 import ProjectList from '../projects/ProjectList';
 
 const Dashboard = () => {
-    const projects = useSelector((state) => state.project.projects);
-    console.log(projects);
+    useFirestoreConnect([{ collection: 'projects' }]);
+    const projects = useSelector((state) => state.firestore.ordered.projects);
 
     return (
         <div className="dashboard container">
