@@ -7,17 +7,22 @@ import ProjectDetails from './components/projects/ProjectDetails';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import CreateProject from './components/projects/CreateProject';
+import AuthRoute from './utils/AuthRoute';
 
 const App = () => {
     return (
         <>
             <Navbar />
             <Switch>
-                <Route path="/" exact component={Dashboard} />
-                <Route path="/project/:id" exact component={ProjectDetails} />
+                <AuthRoute path="/" exact component={Dashboard} />
+                <AuthRoute
+                    path="/project/:id"
+                    exact
+                    component={ProjectDetails}
+                />
                 <Route path="/signin" exact component={SignIn} />
                 <Route path="/signup" exact component={SignUp} />
-                <Route path="/create" exact component={CreateProject} />
+                <AuthRoute path="/create" exact component={CreateProject} />
             </Switch>
         </>
     );

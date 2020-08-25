@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const SignUp = () => {
     const [formFields, setFormFields] = useState({
@@ -19,6 +21,12 @@ const SignUp = () => {
         e.preventDefault();
         console.log(formFields);
     };
+
+    const auth = useSelector((state) => state.firebase.auth);
+
+    if (auth.uid) {
+        return <Redirect to="/" />;
+    }
 
     return (
         <div className="container">
