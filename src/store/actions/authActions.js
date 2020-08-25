@@ -1,4 +1,4 @@
-export const signIn = (credentials) => (dispatch, getState, getFirebase) => {
+export const signIn = (credentials) => (dispatch, _, getFirebase) => {
     const firebase = getFirebase();
 
     firebase
@@ -12,4 +12,13 @@ export const signIn = (credentials) => (dispatch, getState, getFirebase) => {
         });
 };
 
-export default signIn;
+export const signOut = () => (dispatch, _, getFirebase) => {
+    const firebase = getFirebase();
+
+    firebase
+        .auth()
+        .signOut()
+        .then(() => {
+            dispatch({ type: 'LOGOUT_SUCCESS' });
+        });
+};
