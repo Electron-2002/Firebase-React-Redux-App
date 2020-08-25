@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ProjectSummary from './ProjectSummary';
 
 const ProjectList = ({ projects }) => {
+    console.log(projects);
     return (
         <div className="project-list section">
             {projects &&
@@ -20,8 +21,6 @@ ProjectList.propTypes = {
     projects: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string,
-            title: PropTypes.string,
-            content: PropTypes.string,
         })
     ),
 };

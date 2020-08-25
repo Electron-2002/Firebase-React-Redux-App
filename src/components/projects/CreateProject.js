@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createProject } from '../../store/actions/projectActions';
+import PropTypes from 'prop-types';
 
-const CreateProject = () => {
+const CreateProject = (props) => {
     const [formFields, setFormFields] = useState({
         title: '',
         content: '',
@@ -21,6 +22,9 @@ const CreateProject = () => {
         e.preventDefault();
 
         dispatch(createProject(formFields));
+
+        console.log(props.history);
+        props.history.push('/');
     };
 
     return (
@@ -60,6 +64,12 @@ const CreateProject = () => {
             </form>
         </div>
     );
+};
+
+CreateProject.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+    }),
 };
 
 export default CreateProject;

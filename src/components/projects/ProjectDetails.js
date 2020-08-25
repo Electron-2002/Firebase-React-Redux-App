@@ -2,6 +2,7 @@ import React from 'react';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const ProjectDetails = (props) => {
     const {
@@ -30,7 +31,9 @@ const ProjectDetails = (props) => {
                         Posted by {projectDetails.firstName}
                         {projectDetails.lastName}
                     </div>
-                    <div>{projectDetails.createdAt.seconds}</div>
+                    <div>
+                        {moment(projectDetails.createdAt.toDate()).calendar()}
+                    </div>
                 </div>
             </div>
         </div>
