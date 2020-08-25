@@ -12,9 +12,9 @@ const SignedInLinks = () => {
                 <NavLink to="/create">New Project</NavLink>
             </li>
             <li>
-                <button type="button" onClick={() => dispatch(signOut())}>
+                <NavLink to="/" onClick={() => dispatch(signOut())}>
                     Logout
-                </button>
+                </NavLink>
             </li>
             <li>
                 <NavLink to="/" className="btn btn-floating pink lighten-1">
