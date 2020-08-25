@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { signUp } from '../../store/actions/authActions';
 
 const SignUp = () => {
     const [formFields, setFormFields] = useState({
@@ -9,6 +10,9 @@ const SignUp = () => {
         firstName: '',
         lastName: '',
     });
+
+    const authError = useSelector((state) => state.auth.authError);
+    const dispatch = useDispatch();
 
     const changeHandler = (e) => {
         setFormFields({
@@ -19,7 +23,8 @@ const SignUp = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(formFields);
+
+        dispatch(signUp(formFields));
     };
 
     const auth = useSelector((state) => state.firebase.auth);
@@ -83,6 +88,9 @@ const SignUp = () => {
                     >
                         Sign up
                     </button>
+                    <div className="red-text center">
+                        {authError ? <p>{authError.message}</p> : null}
+                    </div>
                 </div>
             </form>
         </div>
