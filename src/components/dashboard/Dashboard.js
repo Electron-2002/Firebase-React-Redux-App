@@ -6,8 +6,8 @@ import ProjectList from '../projects/ProjectList';
 
 const Dashboard = () => {
     useFirestoreConnect([
-        { collection: 'projects' },
-        { collection: 'notifications', limit: 3 },
+        { collection: 'projects', orderBy: ['createdAt', 'desc'] },
+        { collection: 'notifications', limit: 3, orderBy: ['time', 'desc'] },
     ]);
 
     const projects = useSelector((state) => state.firestore.ordered.projects);
