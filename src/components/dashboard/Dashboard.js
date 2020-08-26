@@ -5,11 +5,16 @@ import Notifications from './Notifications';
 import ProjectList from '../projects/ProjectList';
 
 const Dashboard = () => {
-    useFirestoreConnect([{ collection: 'projects' }]);
-    const projects = useSelector((state) => {
-        console.log(state);
-        return state.firestore.ordered.projects;
-    });
+    useFirestoreConnect([
+        { collection: 'projects' },
+        { collection: 'notifications', limit: 3 },
+    ]);
+
+    const projects = useSelector((state) => state.firestore.ordered.projects);
+    const notifications = useSelector(
+        (state) => state.firestore.ordered.notifications
+    );
+    console.log(notifications);
 
     return (
         <div className="dashboard container">
@@ -18,7 +23,7 @@ const Dashboard = () => {
                     <ProjectList projects={projects} />
                 </div>
                 <div className="col s12 m5 offset-m1">
-                    <Notifications />
+                    <Notifications notifications={notifications} />
                 </div>
             </div>
         </div>
