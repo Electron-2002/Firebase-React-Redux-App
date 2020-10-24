@@ -9,13 +9,14 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import CreateProject from './components/projects/CreateProject';
 import AuthRoute from './utils/AuthRoute';
+import UpdateProject from './components/projects/UpdateProject';
 
 const App = () => {
     return (
         <>
             <Navbar />
             <Switch>
-                <AuthRoute path="/" exact component={Dashboard} />
+                <Route path="/" exact component={Dashboard} />
                 <AuthRoute
                     path="/project/:id"
                     exact
@@ -24,6 +25,7 @@ const App = () => {
                 <Route path="/signin" exact component={SignIn} />
                 <Route path="/signup" exact component={SignUp} />
                 <AuthRoute path="/create" exact component={CreateProject} />
+                <AuthRoute path="/update/:id" exact component={UpdateProject} />
             </Switch>
         </>
     );

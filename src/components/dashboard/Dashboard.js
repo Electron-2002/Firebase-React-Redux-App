@@ -17,17 +17,28 @@ const Dashboard = () => {
     console.log(notifications);
 
     return (
-        <div className="dashboard container">
-            <div className="row">
-                <div className="col s12 m6">
-                    <ProjectList projects={projects} />
-                </div>
-                <div className="col s12 m5 offset-m1">
-                    <Notifications notifications={notifications} />
-                </div>
+        <div className="flex items-start justify-between flex-wrap max-w-5xl mx-auto mt-10 ">
+            <div className="w-full md:w-3/5">
+                <ProjectList projects={projects} />
+            </div>
+            <div className="w-full md:w-2/6">
+                <Notifications notifications={notifications} />
             </div>
         </div>
     );
+
+    // return (
+    //     <div className="dashboard container">
+    //         <div className="row">
+    //             <div className="col s12 m6">
+    //                 <ProjectList projects={projects} />
+    //             </div>
+    //             <div className="col s12 m5 offset-m1">
+    //                 <Notifications notifications={notifications} />
+    //             </div>
+    //         </div>
+    //     </div>
+    // );
 };
 
 export default Dashboard;

@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createProject } from '../../store/actions/projectActions';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { updateProject } from '../../store/actions/projectActions';
 
-const CreateProject = (props) => {
+const UpdateProject = (props) => {
+    const {
+        match: {
+            params: { id },
+        },
+    } = props;
+
+    useFirestoreConnect([{ collection: 'projects' }]);
+    const projectDetails = useSelector((state) =>
+        state.firestore.data.projects ? state.firestore.data.projects[id] : null
+    );
+
     const [formFields, setFormFields] = useState({
-        title: '',
-        content: '',
+        title: projectDetails.title,
+        content: projectDetails.content,
     });
 
     const dispatch = useDispatch();
@@ -21,11 +33,15 @@ const CreateProject = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
 
-        dispatch(createProject(formFields));
+        dispatch(updateProject(id, formFields.content));
 
         console.log(props.history);
-        props.history.push('/');
+        props.history.push(`/project/${id}`);
     };
+
+    if (!projectDetails) {
+        return <div className="container center">Loading...</div>;
+    }
 
     return (
         <div className="flex items-center justify-between flex-wrap max-w-5xl mx-auto mt-10">
@@ -36,7 +52,7 @@ const CreateProject = (props) => {
             >
                 <div className="text-center">
                     <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-6 md:mb-10 md:border-b md:pb-6">
-                        New Blog
+                        Update Blog
                     </h1>
                 </div>
                 <div className="flex flex-wrap -mx-3 md:mb-6">
@@ -52,7 +68,7 @@ const CreateProject = (props) => {
                             name="title"
                             id="title"
                             placeholder="Title"
-                            onChange={changeHandler}
+                            contentEditable="false"
                             value={formFields.title}
                             className="appearance-none block w-full bg-gray-200 text-blue-800 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-2 focus:border-blue-800"
                         />
@@ -72,6 +88,7 @@ const CreateProject = (props) => {
                             className="appearance-none block w-full bg-gray-200 text-blue-800 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-2 focus:border-gray-500"
                             onChange={changeHandler}
                             value={formFields.content}
+                            rows={10}
                         />
                     </div>
                 </div>
@@ -81,55 +98,23 @@ const CreateProject = (props) => {
                         className="w-2/3 md:w-1/3 shadow bg-pink-500 hover:bg-pink-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                         type="submit"
                     >
-                        Create
+                        Update
                     </button>
                 </div>
             </form>
         </div>
     );
-    // return (
-    //     <div className="container">
-    //         <form onSubmit={submitHandler} className="white">
-    //             <h5 className="grey-text text-darken-3">Create New Project</h5>
-    //             <div className="input-field">
-    //                 <label htmlFor="title">Title</label>
-    //                 <input
-    //                     type="text"
-    //                     name="title"
-    //                     id="title"
-    //                     onChange={changeHandler}
-    //                     value={formFields.title}
-    //                 />
-    //             </div>
-
-    //             <div className="input-field">
-    //                 <label htmlFor="content">Project Content</label>
-    //                 <textarea
-    //                     name="content"
-    //                     id="content"
-    //                     onChange={changeHandler}
-    //                     value={formFields.content}
-    //                     className="materialize-textarea"
-    //                 />
-    //             </div>
-
-    //             <div className="input-field">
-    //                 <button
-    //                     className="btn pink lighten-1 z-depth-0"
-    //                     type="submit"
-    //                 >
-    //                     Create
-    //                 </button>
-    //             </div>
-    //         </form>
-    //     </div>
-    // );
 };
 
-CreateProject.propTypes = {
+UpdateProject.propTypes = {
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+        }),
+    }),
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,
     }),
 };
 
-export default CreateProject;
+export default UpdateProject;

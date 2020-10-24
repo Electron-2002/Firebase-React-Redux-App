@@ -3,11 +3,6 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-    functions.logger.info('Hello logs!', { structuredData: true });
-    response.send('Hello Firebase!');
-});
-
 const createNotification = (notification) => {
     return admin
         .firestore()
@@ -24,9 +19,27 @@ exports.projectCreated = functions.firestore
         const project = doc.data();
 
         const notification = {
-            content: 'New Project Added!',
+            content: 'New Blog Added!',
             user: `${project.firstName} ${project.lastName}`,
             time: admin.firestore.FieldValue.serverTimestamp(),
+            title: project.title,
+            type: 1,
+        };
+
+        return createNotification(notification);
+    });
+
+exports.projectDeleted = functions.firestore
+    .document('projects/{projectId}')
+    .onDelete((doc) => {
+        const project = doc.data();
+
+        const notification = {
+            content: 'Blog Deleted!',
+            user: `${project.firstName} ${project.lastName}`,
+            time: admin.firestore.FieldValue.serverTimestamp(),
+            title: project.title,
+            type: 1,
         };
 
         return createNotification(notification);
@@ -42,9 +55,10 @@ exports.userAdded = functions.auth.user().onCreate((user) => {
             const newUser = doc.data();
 
             const notification = {
-                content: 'New user added!',
+                content: 'New User added!',
                 user: `${newUser.firstName} ${newUser.lastName}`,
                 time: admin.firestore.FieldValue.serverTimestamp(),
+                type: 2,
             };
 
             return createNotification(notification);

@@ -22,4 +22,36 @@ export const createProject = (project) => {
     };
 };
 
-export default createProject;
+export const deleteProject = (projectId) => {
+    return (dispatch, _, getFirebase) => {
+        const firestore = getFirebase().firestore();
+        firestore
+            .collection('projects')
+            .doc(projectId)
+            .delete()
+            .then(() => {
+                dispatch({ type: 'DELETE_PROJECT', payload: projectId });
+            })
+            .catch((err) => {
+                dispatch({ type: 'DELETE_PROJECT_ERROR', payload: err });
+            });
+    };
+};
+
+export const updateProject = (projectId, content) => {
+    return (dispatch, _, getFirebase) => {
+        const firestore = getFirebase().firestore();
+        firestore
+            .collection('projects')
+            .doc(projectId)
+            .update({
+                content,
+            })
+            .then(() => {
+                dispatch({ type: 'UPDATE_PROJECT', payload: projectId });
+            })
+            .catch((err) => {
+                dispatch({ type: 'UPDATE_PROJECT_ERROR', payload: err });
+            });
+    };
+};

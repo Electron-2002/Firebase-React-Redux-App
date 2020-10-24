@@ -5,7 +5,7 @@ import ProjectSummary from './ProjectSummary';
 
 const ProjectList = ({ projects }) => {
     return (
-        <div className="project-list section">
+        <div className="mx-6 md:ml-0 md:mr-10">
             {projects &&
                 projects.map((project) => (
                     <Link to={`/project/${project.id}`} key={project.id}>
