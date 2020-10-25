@@ -14,7 +14,6 @@ const Dashboard = () => {
     const notifications = useSelector(
         (state) => state.firestore.ordered.notifications
     );
-    console.log(notifications);
 
     return (
         <div className="flex items-start justify-between flex-wrap max-w-5xl mx-auto mt-10 ">

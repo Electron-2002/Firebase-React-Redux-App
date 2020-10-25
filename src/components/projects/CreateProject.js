@@ -23,7 +23,6 @@ const CreateProject = (props) => {
 
         dispatch(createProject(formFields));
 
-        console.log(props.history);
         props.history.push('/');
     };
 

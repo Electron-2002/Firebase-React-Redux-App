@@ -35,7 +35,6 @@ const UpdateProject = (props) => {
 
         dispatch(updateProject(id, formFields.content));
 
-        console.log(props.history);
         props.history.push(`/project/${id}`);
     };
 

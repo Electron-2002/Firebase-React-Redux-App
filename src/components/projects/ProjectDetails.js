@@ -16,17 +16,13 @@ const ProjectDetails = (props) => {
     const auth = useSelector((state) => state.firebase.auth);
 
     useFirestoreConnect([{ collection: 'projects' }]);
-    const projectDetails = useSelector((state) => {
-        console.log(state);
-        return state.firestore.data.projects
-            ? state.firestore.data.projects[id]
-            : null;
-    });
+    const projectDetails = useSelector((state) =>
+        state.firestore.data.projects ? state.firestore.data.projects[id] : null
+    );
 
     const deleteHandler = () => {
         dispatch(deleteProject(id));
 
-        console.log(props.history);
         props.history.push('/');
     };
 
@@ -37,6 +33,8 @@ const ProjectDetails = (props) => {
     if (!projectDetails) {
         return <div className="container center">Loading...</div>;
     }
+
+    console.log(projectDetails.content);
 
     return (
         <div className="flex items-center justify-between flex-wrap max-w-5xl mx-auto mt-10">
@@ -50,7 +48,6 @@ const ProjectDetails = (props) => {
                 <p className="font-medium text-sm md:text-lg md:mb-6">
                     {projectDetails.content.split('\n').map((item) => {
                         return (
-                            // eslint-disable-next-line react/no-array-index-key
                             <span>
                                 {item}
                                 <br />
